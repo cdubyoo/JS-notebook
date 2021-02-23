@@ -1,6 +1,7 @@
 import * as esbuild from 'esbuild-wasm'
 import ReactDOM from 'react-dom'
 import { useState, useEffect, useRef } from 'react'
+import { unpkgPathPlugin } from './plugins/unpkg-path-plugin'
 
 
 const App = () => {
@@ -21,13 +22,20 @@ const App = () => {
         startService()
     }, [])
 
-    const onClick = () => {
+    const onClick = async () => {
         // check to make sure service is initialized 
         if (!ref.current) {
             return
         }
+        // transpile user input
+        const result = await ref.current.build({
+            entryPoints: ['index.js'],
+            bundle: true,
+            write: false,
+            plugins: [unpkgPathPlugin()]
+        })
 
-        console.log(ref.current)
+        setCode(result.outputFiles[0].text)
     }
 
     return (
@@ -38,7 +46,7 @@ const App = () => {
             </div>
             <pre>{code}</pre>
         </div>
-        )
+    )
 }
 
 ReactDOM.render(

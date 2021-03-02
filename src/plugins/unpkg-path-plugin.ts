@@ -12,6 +12,14 @@ export const unpkgPathPlugin = () => {
                 if (args.path === "index.js") {
                     return { path: args.path, namespace: 'a' };
                 }
+                // generate url using path
+                if (args.path.includes('./') || args.path.includes('../')) {
+                    return {
+                        namespace: 'a',
+                        path: new URL(args.path, args.importer + '/').href
+                    }
+                }
+
                 return {
                     namespace: 'a',
                     path: `https://unpkg.com/${args.path}`

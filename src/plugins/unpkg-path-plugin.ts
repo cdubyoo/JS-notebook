@@ -16,7 +16,7 @@ export const unpkgPathPlugin = () => {
                 if (args.path.includes('./') || args.path.includes('../')) {
                     return {
                         namespace: 'a',
-                        path: new URL(args.path, args.importer + '/').href
+                        path: new URL(args.path, 'https://unpkg.com'+ args.resolveDir + '/').href
                     }
                 }
 
@@ -24,9 +24,6 @@ export const unpkgPathPlugin = () => {
                     namespace: 'a',
                     path: `https://unpkg.com/${args.path}`
                 }
-                //  else if (args.path === "tiny-test-pkg") {
-                //     return { path: "https://unpkg.com/tiny-test-pkg@1.0.0/index.js", namespace: 'a' }
-                // }
             });
 
             build.onLoad({ filter: /.*/ }, async (args: any) => {
@@ -35,17 +32,21 @@ export const unpkgPathPlugin = () => {
                 if (args.path === 'index.js') {
                     return {
                         loader: 'jsx',
+                        // modules inputs
                         contents: `
-                            const message = require('medium-test-pkg');
-                            console.log(message);
+                            const React, { useState } = require('react');
+                            console.log(React, reactDOM);
                         `,
                     };
                 } 
                 // get data from url for test pkg
-                const { data } = await axios.get(args.path)
+                const { data, request } = await axios.get(args.path)
+                console.log(request)
                 return {
                     loader: 'jsx',
-                    contents: data
+                    contents: data,
+                    // find directory of package
+                    resolveDir: new URL('./', request.responseURL).pathname
                 }
             });
         },

@@ -19,10 +19,11 @@ export const unpkgPathPlugin = (inputCode: string) => {
     return {
         name: 'unpkg-path-plugin',
         setup(build: esbuild.PluginBuild) {
+            // handle root entry file of index.js
             build.onResolve({ filter: /(^index\.js$)/ }, () => {
                 return {path:'index.js', namespace: 'a' }
             })
-
+            // handle relative paths in a module
             build.onResolve({ filter: /^\.+\// }, (args:any) => {
                 return {
                     namespace: 'a',
@@ -31,6 +32,7 @@ export const unpkgPathPlugin = (inputCode: string) => {
             })
 
             // on resolve called whenever esbuild tries to find path for a module
+            // handle main file of a module
             build.onResolve({ filter: /.*/ }, async (args: any) => {
                 // generate url using path
                 return {

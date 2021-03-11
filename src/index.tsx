@@ -2,7 +2,7 @@ import * as esbuild from 'esbuild-wasm'
 import ReactDOM from 'react-dom'
 import { useState, useEffect, useRef } from 'react'
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin'
-
+import { fetchPlugin } from './plugins/fetch-plugin'
 
 const App = () => {
     const ref = useRef<any>()
@@ -32,7 +32,10 @@ const App = () => {
             entryPoints: ['index.js'],
             bundle: true,
             write: false,
-            plugins: [unpkgPathPlugin(input)],
+            plugins: [
+                unpkgPathPlugin(), fetchPlugin(input)
+            ],
+            
             // defines for bundling
             define: {
                 'process.env.NODE_ENV': '"production"',

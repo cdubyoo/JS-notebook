@@ -13,7 +13,7 @@ const App = () => {
         // assign startservice to ref.current to be used outside
         ref.current = await esbuild.startService({
             worker: true,
-            wasmURL: '/esbuild.wasm'
+            wasmURL: 'http://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm'
         })
     }
 

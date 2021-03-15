@@ -10,14 +10,24 @@ export const fetchPlugin = (inputCode: string) => {
     return {
         name: 'fetch-plugin',
         setup(build: esbuild.PluginBuild) {
-
             build.onLoad({ filter: /(^index\.js$)/ }, () => {
                 return {
                     loader: 'jsx',
                     contents: inputCode,
                 }
             })
+        
+        // check for cache results
+        build.onLoad({ filter: /.*/ }, async (args:any) => {
+            // check to see if we already fetched this file and if its in the cache
+            const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path) // use type onLoadresult so typescript knows the type
+        
+            if (cachedResult) {
+                return cachedResult
+            }
+        })
 
+            // onload for css
             build.onLoad({ filter: /.css$/ }, async (args: any) => {
                 const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path)
         
@@ -47,15 +57,8 @@ export const fetchPlugin = (inputCode: string) => {
                 return result
             });
 
-        
+            // onload for all other files
             build.onLoad({ filter: /.*/ }, async (args: any) => {
-                // check to see if we already fetched this file and if its in the cache
-                const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path) // use type onLoadresult so typescript knows the type
-        
-                if (cachedResult) {
-                    return cachedResult
-                }
-                
                 // get data from url for test pkg
                 const { data, request } = await axios.get(args.path)
         

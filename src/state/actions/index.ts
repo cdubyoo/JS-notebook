@@ -1,4 +1,5 @@
  import { ActionType } from '../action-types'
+ import { CellTypes } from '../cell'
 
 // define interface for each action
 
@@ -19,7 +20,7 @@ interface InsertCellBeforeAction {
     type: ActionType.INSERT_CELL_BEFORE
     payload: {
         id: string
-        type: 'code' | 'text'
+        type: CellTypes
     }
 }
 

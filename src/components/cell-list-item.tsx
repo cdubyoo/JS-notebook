@@ -1,9 +1,20 @@
-import { useTypedSelector } from '../hooks/use-typed-selector'
+import { Cell } from '../state'
+import CodeCell from './code-cell'
+import TextEditor from './text-editor'
 
-const CellListItem: React.FC = () => {
-    useTypedSelector((state) => state)
+interface CellListItemProps {
+    cell: Cell
+}
 
-    return <div>Cell List Item</div>
+const CellListItem: React.FC<CellListItemProps> = ({ cell }) => {
+    let child: JSX.Element
+    if (cell.type === 'code') {
+        child = <CodeCell cell={cell}/>
+    } else {
+        child = <TextEditor />
+    }
+
+    return <div>{child}</div>
 }
 
 export default CellListItem

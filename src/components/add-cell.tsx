@@ -11,6 +11,7 @@ const AddCell: React.FC<AddCellProps> = ({ nextCellId }) => {
     return <div>
         <button onClick={() => insertCellBefore(nextCellId, 'code')}>Code</button>
         <button onClick={() => insertCellBefore(nextCellId, 'text')}>Text</button>
+        <div className="divider"></div>
     </div>
 }
 export default AddCell

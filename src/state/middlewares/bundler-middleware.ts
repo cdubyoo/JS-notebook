@@ -23,7 +23,10 @@ action) => {
 
         dispatch({
             type: ActionType.BUNDLE_CREATED,
-            payload: result
+            payload: {
+                cellId: action.payload.id,
+                bundle: result
+            }
         })
         console.log("dispatched bundled created")
     }, 750)

@@ -17,6 +17,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
 
     useEffect(() => {
         const timer = setTimeout(async () => {
+            // pass in string to get back output
             const output = await bundle(cell.content)
             // transpiled and bundled code
             setCode(output.code)

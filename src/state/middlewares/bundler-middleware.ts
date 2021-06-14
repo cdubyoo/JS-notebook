@@ -1,8 +1,9 @@
 import { Middleware } from './middleware'
 import { ActionType } from '../action-types'
+import bundle from '../../bundler'
 
 let timer: any
-export const bundlerMiddleware: Middleware = ({ getState }) => (next) => (
+export const bundlerMiddleware: Middleware = ({ getState, dispatch }) => (next) => (
 action) => {
     next(action)
 
@@ -16,7 +17,14 @@ action) => {
         return
     }    
     clearTimeout(timer)
-    timer = setTimeout(() => {
-        console.log('timer expired')
+    timer = setTimeout(async () => {
+        console.log("starting bundling")
+        const result = await bundle(action.payload.content)
+
+        dispatch({
+            type: ActionType.BUNDLE_CREATED,
+            payload: result
+        })
+        console.log("dispatched bundled created")
     }, 750)
 }

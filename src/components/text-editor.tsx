@@ -16,12 +16,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ cell }) => {
     useEffect(() => {
         const listener = (event: MouseEvent) => {
             if (ref.current && event.target && ref.current.contains(event.target as Node)) {
-                console.log('element clicked on is inside editor')
-            } else {
-                console.log('element clicked  is not inside editor')
-            }
-            
-
+                return
+            } 
             setEditing(false)
         }
         document.addEventListener('click', listener, { capture:true })

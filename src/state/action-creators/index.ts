@@ -5,8 +5,6 @@ import {
     DeleteCellAction, 
     MoveCellAction, 
     InsertCellAfterAction,
-    BundleCreatedAction,
-    BundleCompleteAction,
     Direction,
     Action
 } from '../actions'

@@ -20,11 +20,21 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
 
         const cumulativeCode = [
             `
+
+                import _React from 'react;
+                import _ReactDOM from 'react-dom';
                 const show = (value) => {
+                    const root = document.querySelector('#root')
+
                     if (typeof value === 'object') {
-                        document.querySelect('#root').innerHTML = JSON.stringify(value)
+                        if (value.$$typeof && value.props) {
+                            _ReactDOM.render(value, root)
+                        } else {
+                            root.innerHTML = JSON.stringify(value)
+                        }
+                    } else {
+                        root.innerHTML = value
                     }
-                    document.querySelect('#root').innerHTML = value
                 }
             `
         ]
@@ -42,19 +52,19 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
     useEffect(() => {
         // if no bundle then create one without setting timer
         if (!bundle) {
-            createBundle(cell.id, cell.content)
+            createBundle(cell.id, cumulativeCode.join('\n'))
             return
         }
 
         const timer = setTimeout(async () => {
-            createBundle(cell.id, cell.content)
+            createBundle(cell.id, cumulativeCode.join('\n'))
         }, 750)
 
         return () => {
             clearTimeout(timer)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cell.content, cell.id, createBundle])
+    }, [cumulativeCode.join('\n'), cell.id, createBundle])
 
     return (
         <Resizable direction="vertical">

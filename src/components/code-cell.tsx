@@ -15,6 +15,12 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
     const bundle = useTypedSelector((state) => state.bundles[cell.id])
 
     useEffect(() => {
+        // if no bundle then create one without setting timer
+        if (!bundle) {
+            createBundle(cell.id, cell.content)
+            return
+        }
+
         const timer = setTimeout(async () => {
             createBundle(cell.id, cell.content)
         }, 750)
@@ -22,6 +28,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
         return () => {
             clearTimeout(timer)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cell.content, cell.id, createBundle])
 
     return (
@@ -39,7 +46,11 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
                 onChange={(value) => updateCell(cell.id, value)}
             />
             </Resizable>
-            {bundle && <Preview code={bundle.code} err={bundle.err} />}
+            { //ternary expression to check for bundle loading
+                !bundle || bundle.loading
+                ? <div>Loading...</div>
+                : <Preview code={bundle.code} err={bundle.err} />
+            }
         </div>
         </Resizable>
     )

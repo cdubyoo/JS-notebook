@@ -14,6 +14,30 @@ interface CodeCellProps {
 const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
     const { updateCell, createBundle } = useActions()
     const bundle = useTypedSelector((state) => state.bundles[cell.id])
+    const cumulativeCode = useTypedSelector((state) => {
+        const { data, order } = state.cells
+        const orderedCells = order.map(id => data[id])
+
+        const cumulativeCode = [
+            `
+                const show = (value) => {
+                    if (typeof value === 'object') {
+                        document.querySelect('#root').innerHTML = JSON.stringify(value)
+                    }
+                    document.querySelect('#root').innerHTML = value
+                }
+            `
+        ]
+        for (let c of orderedCells) {
+            if (c.type === 'code') {
+                cumulativeCode.push(c.content)
+            }
+            if (c.id === cell.id) {
+                break
+            }
+        }
+        return cumulativeCode
+    })
 
     useEffect(() => {
         // if no bundle then create one without setting timer

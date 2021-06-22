@@ -1,3 +1,4 @@
+import './code-cell.css'
 import { useEffect } from 'react'
 import CodeEditor from './code-editor'
 import Preview from './preview'
@@ -47,10 +48,19 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
             />
             </Resizable>
             { //ternary expression to check for bundle loading
-                !bundle || bundle.loading
-                ? <div>Loading...</div>
-                : <Preview code={bundle.code} err={bundle.err} />
-            }
+                !bundle || bundle.loading ? (
+                    <div className="prograss-cover">
+                        <progress className="progress is-small is-primary" max="100">
+                            Loading
+                        </progress>
+                    </div>
+                ) : (
+                    <div className="prograss-cover">
+                        <progress className="progress is-small is-primary" max="100">
+                            Loading
+                        </progress>
+                    </div>
+                )}
         </div>
         </Resizable>
     )

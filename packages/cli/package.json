@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commander": "^7.0.0",
+    "commander": "^8.0.0",
     "local-api": "^1.0.0"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 import { program } from 'commander'
-import { serveCommand } from './commands/serve'
+import { serveCommand } from '../dist/commands/serve'
 
 // associate different commands together
 program

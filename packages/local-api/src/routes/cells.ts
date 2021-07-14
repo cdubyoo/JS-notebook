@@ -9,5 +9,7 @@ export const createCellsRouter = (filename: string, dir: string) => {
     router.post('/cells', async (req, res) => {
         
     })
+
+    return router
 }
 

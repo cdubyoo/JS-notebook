@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^8.0.0",
+    "cors": "^2.8.5",
     "local-api": "^1.0.0"
   },
   "devDependencies": {

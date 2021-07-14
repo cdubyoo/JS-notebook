@@ -19,6 +19,7 @@
     "@uiw/react-md-editor": "2.1.1",
     "axios": "0.21.1",
     "bulmaswatch": "^0.8.1",
+    "cors": "^2.8.5",
     "esbuild-wasm": "0.8.27",
     "immer": "^8.0.0",
     "jscodeshift": "0.11.0",

@@ -11,6 +11,8 @@ export const serve = (
   ) => {
   const app = express()
 
+  app.use(createCellsRouter(filename, dir))
+
   if (useProxy) {
     app.use(createProxyMiddleware({
       target: 'https://localhost:3000',
@@ -21,8 +23,6 @@ export const serve = (
     const packagePath = require.resolve('local-client/build/index.html')
     app.use(express.static(path.dirname(packagePath)))
   }
-
-  app.use(createCellsRouter(filename, dir))
   
   // create own promise to either resolve or reject
   return new Promise<void>((resolve, reject) => {

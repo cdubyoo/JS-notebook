@@ -11,3 +11,9 @@ All of your changes get saved to the file you opened JS-notebook with. So if you
 # Getting Started
 
 Open any directory you want to save the file in and run `npx jsnote-j serve test.js`
+
+# Demo
+![jsnote1](https://user-images.githubusercontent.com/8799412/130684612-57716238-d650-48e4-9c17-0eb41f319db8.png)
+![jsnote2](https://user-images.githubusercontent.com/8799412/130684635-8f8e2005-0a14-45d8-b304-05281f9b07fc.png)
+
+
